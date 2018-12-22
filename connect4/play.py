@@ -19,7 +19,7 @@ def explore(mcts, max_time, node=None, state=None):
         else:
             mcts.sim()
         count += 1
-    print('Played {} games'.format(count))
+    # print('Played {} games'.format(count))
 
 # initialize game and mcts
 game_cls = Connect4
@@ -49,7 +49,8 @@ while game.is_won() == 0 and len(valid_actions) > 0:
 
     # ai player move
     explore(mcts, 1, node=node, state=game.board)
-    node, action = node.select_action()
+    node, action, scores = node.select_action()
     game.play(action)
-    print('AI played action {}\n'.format(action))
+    print('AI played action {}'.format(action))
+    print('Scores', scores, '\n')
     valid_actions = game.valid_actions(game.board)

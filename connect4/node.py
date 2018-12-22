@@ -22,7 +22,7 @@ class Node:
 
     def select_action(self):
         if not self.children:
-            return None, None
+            return None, None, None
 
         winners = [child for child in self.children if child.winner]
         if len(winners) > 0:
@@ -41,9 +41,8 @@ class Node:
         str_scores = ''
         for sc in scores_actions:
             str_scores += '{:.2f} '.format(sc)
-        print('scores', str_scores)
 
-        return best_child, best_child.action
+        return best_child, best_child.action, str_scores
 
     def get_child_action(self, action):
         for child in self.children:
