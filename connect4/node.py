@@ -18,7 +18,14 @@ class Node:
     def get_ucb(self):
         if self.games == 0:
             return None
-        return self.win/self.games+self.c_exp*np.sqrt(np.log(self.parent.games)/self.games)
+        return self.win/self.games +\
+            self.c_exp*np.sqrt(np.log(self.parent.games)/self.games)
+
+    def score2str(self, scores):
+        str_scores = ''
+        for sc in scores:
+            str_scores += '{:.2f} '.format(sc)
+        return str_scores
 
     def select_action(self):
         if not self.children:
@@ -26,21 +33,23 @@ class Node:
 
         winners = [child for child in self.children if child.winner]
         if len(winners) > 0:
-            return winners[0], winners[0].action, ''
+            scores = np.zeros(self.state.shape[1])
+            for child in winners:
+                scores[child.action] = 1
+            str_scores = self.score2str(scores)
+            return winners[0], winners[0].action, str_scores
 
         scores = [child.win/child.games if child.games > 0 else 0
-                 for child in self.children]
+                  for child in self.children]
 
         best_child = self.children[np.argmax(scores, axis=0)]
 
-        scores_actions = [[child.win/child.games, child.action] if child.games > 0 else 0
-                 for child in self.children]
-        scores_actions = sorted(scores_actions, key=lambda x:x[1])
+        scores_actions = [[child.win/child.games, child.action]
+                          if child.games > 0 else 0 for child in self.children]
+        scores_actions = sorted(scores_actions, key=lambda x: x[1])
         scores_actions = np.array(scores_actions)[:, 0]
+        str_scores = self.score2str(scores_actions)
 
-        str_scores = ''
-        for sc in scores_actions:
-            str_scores += '{:.2f} '.format(sc)
 
         return best_child, best_child.action, str_scores
 
