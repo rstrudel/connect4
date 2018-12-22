@@ -14,7 +14,7 @@ class AI:
     def reset(self):
         self.node = self.mcts.tree.root
 
-    def opponent_action(self, action):
+    def step_tree(self, action):
         if action not in self.node:
             print('Game state not explored by MTCS.')
             self.node = {}
@@ -25,12 +25,8 @@ class AI:
         node = self.node
         player = self.player
 
-        scores = []
-        for action in allowed_actions:
-            if action in node:
-                scores.append(node[action]['win_p{}'.format(player+1)]/node[action]['count'])
-            else:
-                scores.append(0)
+        idx_max = np.argmax(scores[player])
+        action = allowed_actions[idx_max]
+        self.step_tree(action)
 
-        idx_max = np.argmax(scores)
-        return allowed_actions[idx_max]
+        return action

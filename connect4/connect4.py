@@ -12,9 +12,11 @@ class Connect4:
     def reset(self):
         size = self.size
         self.board = np.zeros(size, dtype=int)
-        self.level_col = np.zeros(size[1], dtype=int)
-        self.filled_col = np.zeros(size[1], dtype=bool)
         self.player = 1
+
+    def set_board(self, board):
+        self.board = board
+        self.player = self.active_player(board)
 
     def init_win_patterns(self):
         length_connect = self.length_connect
@@ -27,15 +29,10 @@ class Connect4:
                              diag0_pattern,
                              diag1_pattern]
 
-    def allowed_actions(self):
-        return [i for i in range(self.size[1]) if not(self.filled_col[i])]
-
     def play(self, col):
-        assert not(self.filled_col[col])
-        level_col = self.level_col[col]
+        assert col in self.valid_actions(self.board)
+        level_col = (self.board == 0).argmax(axis=0)[col]
         self.board[level_col, col] = self.player
-        self.level_col[col] += 1
-        self.filled_col = self.level_col == self.size[0]
         self.player *= -1
 
     def is_won(self):
@@ -50,3 +47,14 @@ class Connect4:
                 won = 2*int(res[idx_max] > 0)-1
 
         return won
+
+    @staticmethod
+    def valid_actions(board):
+        return np.where(board[-1, :] == 0)[0]
+
+    @staticmethod
+    def active_player(board):
+        p1 = abs((board+1).sum())
+        p2 = abs((board-1).sum())
+
+        return -1 if p1 > p2 else 1
