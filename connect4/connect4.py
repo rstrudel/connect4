@@ -14,6 +14,22 @@ class Connect4:
         self.board = np.zeros(size, dtype=int)
         self.player = 1
 
+    def to_str(self):
+        s = self.board[::-1].astype(str)
+        s[s == '0'] = ' '
+        s[s == '-1'] = 'O'
+        s[s == '1'] = 'X'
+        s = str(s)
+        s = s.replace("'", "")
+        s = s.replace('[[', '[')
+        s = s.replace(']]', ']')
+        s_col = '\n '
+        for i in range(self.board.shape[1]):
+            s_col += ' {}'.format(i)
+        s_col += ' \n'
+        s += s_col
+        return s
+
     def set_board(self, board):
         self.board = board
         self.player = self.active_player(board)

@@ -36,7 +36,7 @@ valid_actions = game.valid_actions(game.board)
 player = 1
 while game.is_won() == 0 and len(valid_actions) > 0:
     # human player move
-    print('Board:\n', game.board[::-1], '\n')
+    print('Board:\n', game.to_str(), '\n')
     action = None
     while action not in valid_actions:
         action = int(input('Action:'))
