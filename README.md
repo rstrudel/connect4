@@ -1,7 +1,6 @@
-# MCTS Connect 4
+# MCTS Connect4
 
-Implementation of MCTS for Connect4,
-To play, run
+Implementation of MCTS for Connect4. To play, run
 ```
 python -m connect4.play
 ```
