@@ -7,7 +7,6 @@ import numpy as np
 from .connect4 import Connect4
 from .mcts import MCTS
 from .node import Node
-from .ai import AI
 
 np.random.seed(0)
 
