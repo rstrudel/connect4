@@ -26,7 +26,7 @@ class Node:
 
         winners = [child for child in self.children if child.winner]
         if len(winners) > 0:
-            return winners[0], winners[0].action
+            return winners[0], winners[0].action, ''
 
         scores = [child.win/child.games if child.games > 0 else 0
                  for child in self.children]

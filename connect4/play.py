@@ -26,7 +26,6 @@ game_cls = Connect4
 mcts = MCTS(game_cls)
 explore(mcts, 2)
 
-
 game = game_cls()
 game.reset()
 
@@ -35,7 +34,7 @@ valid_actions = game.valid_actions(game.board)
 player = 1
 while game.is_won() == 0 and len(valid_actions) > 0:
     # human player move
-    print('Board:\n', game.to_str(), '\n')
+    print('Board:\n', game.to_str())
     action = None
     while action not in valid_actions:
         action = int(input('Action:'))
@@ -54,3 +53,7 @@ while game.is_won() == 0 and len(valid_actions) > 0:
     print('AI played action {}'.format(action))
     print('Scores', scores, '\n')
     valid_actions = game.valid_actions(game.board)
+
+value2player = {-1: 2, 1: 1, 0: 0}
+print('Board:\n', game.to_str())
+print('Player {} won.'.format(value2player[game.is_won()]))
